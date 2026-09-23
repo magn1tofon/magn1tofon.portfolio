@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MAGN1TOFON — Luau Developer</title>
+<meta name="description" content="Portfolio of magn1tofon — Luau programmer with 4+ years of experience. Combat systems, character frameworks, backend & data." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #07070f;
+    --bg-2: #0c0c1a;
+    --panel: #12121f;
+    --panel-2: #171728;
+    --border: #232338;
+    --text: #e6e6f0;
+    --muted: #9a9ab0;
+    --accent: #22d3ee;
+    --accent-2: #a855f7;
+    --green: #34d399;
+    --red: #f43f5e;
+    --yellow: #fbbf24;
+    --font: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(168, 85, 247, 0.15), transparent 60%),
+      radial-gradient(1000px 500px at 85% 10%, rgba(34, 211, 238, 0.12), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, rgba(244, 63, 94, 0.08), transparent 60%);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  a { color: var(--accent); text-decoration: none; }
+
+  ::selection { background: rgba(34, 211, 238, 0.3); }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  .mono { font-family: var(--mono); }
+
+  /* ===== Nav ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(7, 7, 15, 0.7);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 24px;
+  }
+  .nav-logo { font-family: var(--mono); font-weight: 700; font-size: 15px; color: var(--text); }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 26px; list-style: none; }
+  .nav-links a { color: var(--muted); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ===== Hero ===== */
+  header.hero { padding: 90px 0 70px; position: relative; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    border: 1px solid rgba(52, 211, 153, 0.4);
+    background: rgba(52, 211, 153, 0.08);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .hero h1 {
+    font-size: clamp(42px, 8vw, 80px);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p.tagline { font-size: clamp(16px, 2.4vw, 20px); color: var(--muted); max-width: 640px; margin-bottom: 30px; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; }
+  .btn {
+    display: inline-block;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 13px 26px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #06060c; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(34, 211, 238, 0.35); }
+  .btn-ghost { border-color: var(--border); color: var(--text); background: var(--panel); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .hero-stats { display: flex; flex-wrap: wrap; gap: 40px; margin-top: 46px; }
+  .stat .num { font-size: 30px; font-weight: 700; font-family: var(--mono); color: var(--text); }
+  .stat .num span { color: var(--accent); }
+  .stat .lbl { font-size: 13px; color: var(--muted); font-family: var(--mono); }
+
+  /* ===== Sections ===== */
+  section { padding: 70px 0; }
+  .sec-head { display: flex; align-items: center; gap: 16px; margin-bottom: 36px; }
+  .sec-head .idx { font-family: var(--mono); color: var(--accent); font-size: 14px; }
+  .sec-head h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 600; }
+  .sec-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ===== About ===== */
+  .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; }
+  .about-text p { color: var(--muted); margin-bottom: 18px; font-size: 16px; }
+  .about-text p strong { color: var(--text); font-weight: 600; }
+  .about-text blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 18px;
+    color: var(--text);
+    font-style: italic;
+    margin: 22px 0;
+    opacity: 0.9;
+  }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== Services ===== */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .service {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 26px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .service:hover { transform: translateY(-4px); border-color: rgba(34, 211, 238, 0.4); }
+  .service:hover::before { opacity: 1; }
+  .service .icon { font-size: 26px; margin-bottom: 14px; }
+  .service h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+  .service .lvl {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--yellow);
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .service p { color: var(--muted); font-size: 14.5px; }
+  .service ul { margin-top: 10px; padding-left: 18px; color: var(--muted); font-size: 14px; }
+  .service ul li { margin-bottom: 4px; }
+
+  .focus-note {
+    margin-top: 28px;
+    background: linear-gradient(90deg, rgba(168, 85, 247, 0.12), rgba(34, 211, 238, 0.08));
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: 12px;
+    padding: 22px 26px;
+    font-size: 15.5px;
+  }
+  .focus-note strong { color: var(--accent-2); }
+
+  /* ===== Projects ===== */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.25s;
+    position: relative;
+  }
+  .card:hover { transform: translateY(-4px); border-color: rgba(34, 211, 238, 0.4); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+  .card.top-project { border-color: rgba(34, 211, 238, 0.5); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-top h3 { font-size: 19px; font-weight: 700; }
+  .top-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #06060c;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .project-badge {
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+  .badge-dev { color: var(--accent); border-color: rgba(34, 211, 238, 0.4); background: rgba(34, 211, 238, 0.08); }
+  .badge-lead { color: var(--accent-2); border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.08); }
+  .badge-cont { color: var(--green); border-color: rgba(52, 211, 153, 0.4); background: rgba(52, 211, 153, 0.08); }
+  .badge-disc { color: var(--red); border-color: rgba(244, 63, 94, 0.4); background: rgba(244, 63, 94, 0.08); }
+
+  .card-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+  .meta-chip {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .meta-chip.high { color: var(--yellow); border-color: rgba(251, 191, 36, 0.35); }
+
+  .card p.desc { color: var(--muted); font-size: 14.5px; flex: 1; }
+  .card-links { display: flex; gap: 14px; align-items: center; }
+  .card-links a { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+  .card-links a:hover { text-decoration: underline; }
+  .card-links .ext { color: var(--muted); }
+
+  .note {
+    margin-top: 30px;
+    font-size: 14px;
+    color: var(--muted);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    background: var(--panel);
+  }
+  .note strong { color: var(--yellow); }
+
+  /* ===== Contact ===== */
+  .contact-box {
+    background: linear-gradient(135deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 50px;
+    text-align: center;
+  }
+  .contact-box h2 { font-size: clamp(24px, 4vw, 34px); margin-bottom: 10px; font-weight: 600; }
+  .contact-box h2 span { color: var(--accent); }
+  .contact-box p { color: var(--muted); max-width: 560px; margin: 0 auto 30px; }
+  .contact-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 34px 0;
+    text-align: center;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+  footer .sig { color: var(--accent); }
+
+  /* ===== Scroll reveal ===== */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 760px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero-stats { gap: 24px; }
+    .contact-box { padding: 36px 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">MAGN1<span>T</span>OFON</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="container">
+    <span class="hero-badge"><span class="dot"></span> AVAILABLE FOR WORK</span>
+    <h1>HELLO, I'M<br /><span class="grad">MAGN1TOFON</span>.</h1>
+    <p class="tagline">Luau programmer with <strong style="color:var(--text)">4+ years</strong> of experience. I write clean, highly optimized, and modular Luau code. No caveman code — that's all, ig.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#projects">View My Work</a>
+      <a class="btn btn-ghost" href="#contact">Hire Me</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">4<span>+</span></div><div class="lbl">YEARS EXPERIENCE</div></div>
+      <div class="stat"><div class="num">30M<span>+</span></div><div class="lbl">COMBINED VISITS</div></div>
+      <div class="stat"><div class="num">10<span>+</span></div><div class="lbl">SHIPPED PROJECTS</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="container">
+    <div class="sec-head"><span class="idx">// 01</span><h2>About Me</h2></div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm <strong>magn1tofon</strong>, a multi-task developer focusing on <strong>Data &amp; Backend</strong>. Over the years I've built systems that held <strong>thousands of concurrent players</strong> across projects reaching tens of millions of visits.</p>
+        <blockquote>"I focus on writing clean, highly optimized, and modular Luau code. I don't write caveman code and that's all ig."</blockquote>
+        <p><strong>Main focus:</strong> character/client frameworks (effects, character animations, states like bleeding/concussion, etc.) and combat systems. I can build medium-to-hard systems.</p>
+      </div>
+      <div class="reveal">
+        <div class="skill-tags">
+          <span class="tag">Luau</span>
+          <span class="tag">Raycasting Hitboxes</span>
+          <span class="tag">Projectile Physics</span>
+          <span class="tag">Client-Server Comm</span>
+          <span class="tag">Data Persistence</span>
+          <span class="tag">Character Frameworks</span>
+          <span class="tag">Animations &amp; Effects</span>
+          <span class="tag">State Systems</span>
+          <span class="tag">Simulators</span>
+          <span class="tag">ReBirth / Inventory / RNG</span>
+          <span class="tag">Rank &amp; Level Systems</span>
+          <span class="tag">Custom Admin Commands</span>
+          <span class="tag">Roleplay Systems</span>
+          <span class="tag">Combat Systems</span>
+          <span class="tag">Optimized Backend</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <div class="sec-head"><span class="idx">// 02</span><h2>What I Can Do</h2></div>
+    <div class="services-grid">
+      <div class="service reveal">
+        <div class="icon">🛡️</div>
+        <h3>Combat &amp; Physics</h3>
+        <span class="lvl">HARD</span>
+        <p>Good raycasting hitboxes, custom projectile physics, and client-server communication — basically melee &amp; gun systems.</p>
+      </div>
+      <div class="service reveal">
+        <div class="icon">🧬</div>
+        <h3>Character / Client Frameworks</h3>
+        <span class="lvl">HARD</span>
+        <p>Effects, character animations, and different states like bleeding, concussion and more.</p>
+      </div>
+      <div class="service reveal">
+        <div class="icon">🎰</div>
+        <h3>Simulator Systems</h3>
+        <span class="lvl">MEDIUM</span>
+        <p>ReBirth systems, inventory, RNG and everything a modern simulator needs.</p>
+      </div>
+      <div class="service reveal">
+        <div class="icon">🤝</div>
+        <h3>Roleplay Systems</h3>
+        <span class="lvl">MEDIUM</span>
+        <p>Rank systems, level systems, custom admin commands, and related tools.</p>
+      </div>
+      <div class="service reveal">
+        <div class="icon">🗄️</div>
+        <h3>Data &amp; Backend</h3>
+        <span class="lvl">HARD</span>
+        <p>Clean, modular, optimized Luau. Built to scale under high CCU without eating the frame budget.</p>
+      </div>
+    </div>
+    <div class="focus-note reveal">
+      <strong>Main specialization:</strong> I primarily work on <strong>character/client frameworks</strong> and <strong>combat systems</strong> — but I'm a multi-task dev, comfortable with medium/hard systems across the board.
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="sec-head"><span class="idx">// 03</span><h2>Previous Work &amp; Contributions</h2></div>
+    <div class="projects-grid">
+
+      <div class="card top-project reveal">
+        <div class="card-top">
+          <h3>Fight on a Baseplate</h3>
+          <span class="top-badge">26M VISITS</span>
+        </div>
+        <span class="project-badge badge-dev">DEVELOPER</span>
+        <div class="card-meta">
+          <span class="meta-chip high">700+ CCU</span>
+        </div>
+        <p class="desc">An active combat title with a huge playerbase running on my systems.</p>
+        <div class="card-links">
+          <a href="https://www.roblox.com/games/130960021905304/fight-on-a-baseplate" target="_blank" rel="noopener">Play →</a>
+        </div>
+      </div>
+
+      <div class="card top-project reveal">
+        <div class="card-top">
+          <h3>Bloody Baseplate</h3>
+          <span class="top-badge">5M+ VISITS</span>
+        </div>
+        <span class="project-badge badge-lead">CO-OWNER / LEAD DEV</span>
+        <div class="card-meta">
+          <span class="meta-chip high">1.2K CCU</span>
+          <span class="meta-chip">First shipped project</span>
+        </div>
+        <p class="desc">My first project — the original was deleted when the owner got terminated, but the new version is live.</p>
+        <div class="card-links">
+          <a href="https://www.roblox.com/games/105573385502492/Bloody-Baseplate-RFA" target="_blank" rel="noopener">Play RFA →</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-top">
+          <h3>The Rake Kill Edition</h3>
+          <span class="top-badge">700K VISITS</span>
+        </div>
+        <span class="project-badge badge-dev">DEVELOPER</span>
+        <div class="card-meta">
+          <span class="meta-chip high">200+ CCU</span>
+        </div>
+        <p class="desc">Survival / combat title (lists as THE REVENANT - Sunrisen now).</p>
+        <div class="card-links">
+          <a href="https://www.roblox.com/games/93531785397649/THE-REVENANT-Sunrisen" target="_blank" rel="noopener">Play →</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-top">
+          <h3>Monkey Battlegrounds</h3>
+          <span class="top-badge">140K VISITS</span>
+        </div>
+        <span class="project-badge badge-cont">CONTRIBUTOR</span>
+        <div class="card-meta">
+          <span class="meta-chip high">70+ CCU</span>
+        </div>
+        <p class="desc">Battle-style game I contributed to during development.</p>
+        <div class="card-links">
+          <a href="https://www.roblox.com/games/97195234057053/Monkey-Battlegrounds" target="_blank" rel="noopener">Play →</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-top">
+          <h3>Blood Engine 2</h3>
+          <span class="top-badge">100K+ VISITS</span>
+        </div>
+        <span class="project-badge badge-dev">DEVELOPER</span>
+        <p class="desc">An actual better version of Vectus — custom combat engine.</p>
+        <div class="card-links">
+          <a class="ext" href="https://streamable.com/l77cda" target="_blank" rel="noopener">▶ Watch demo</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-top">
+          <h3>Vectus (Reuploaded)</h3>
+        </div>
+        <span class="project-badge badge-dev">DEVELOPER</span>
+        <p class="desc">Classic Vectus-style melee engine, reuploaded.</p>
+        <div class="card-links">
+          <a class="ext" href="https://streamable.com/oduyvo" target="_blank" rel="noopener">▶ Watch demo</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-top">
+          <h3>Another Melee Game</h3>
+        </div>
+        <span class="project-badge badge-dev">DEVELOPER</span>
+        <p class="desc">A melee title I was working on at the time.</p>
+        <div class="card-links">
+          <a class="ext" href="https://streamable.com/gqxvoy" target="_blank" rel="noopener">▶ Watch demo</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-top">
+          <h3>Dishonored</h3>
+        </div>
+        <span class="project-badge badge-disc">DISCONTINUED</span>
+        <p class="desc">Supposed to be a melee game, but the owner discontinued the project due to irl problems.</p>
+        <div class="card-links">
+          <a class="ext" href="https://streamable.com/g9n9pn" target="_blank" rel="noopener">▶ Watch demo</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-top">
+          <h3>British Army</h3>
+        </div>
+        <span class="project-badge badge-disc">DISCONTINUED</span>
+        <div class="card-meta">
+          <span class="meta-chip">Old — 2022</span>
+        </div>
+        <p class="desc">A very old project, discontinued back in 2022.</p>
+        <div class="card-links">
+          <a class="ext" href="https://streamable.com/1tpd8y" target="_blank" rel="noopener">▶ Watch demo</a>
+        </div>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-top">
+          <h3>Kingdom of Prussia</h3>
+        </div>
+        <span class="project-badge badge-disc">DISCONTINUED</span>
+        <div class="card-meta">
+          <span class="meta-chip">Old — 2022</span>
+        </div>
+        <p class="desc">Historical project, also discontinued back in 2022.</p>
+        <div class="card-links">
+          <a class="ext" href="https://streamable.com/nk0u7d" target="_blank" rel="noopener">▶ Watch demo</a>
+        </div>
+      </div>
+
+    </div>
+    <div class="note reveal">
+      <strong>Heads up:</strong> those clips/games are old. There are a lot more unreleased projects — if you're interested, ask me. If needed, I can put together a demo system to show my current progression.
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-box reveal">
+      <h2>LET'S BUILD SOMETHING <span>SOLID</span>.</h2>
+      <p>Need combat systems, character frameworks, or a full backend? I'm a multi-task dev — medium to hard systems only. Got an idea? Let's talk.</p>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="https://www.roblox.com/users/profile" target="_blank" rel="noopener">Contact Me</a>
+        <a class="btn btn-ghost" href="mailto:?subject=Dev%20Inquiry%20for%20MAGN1TOFON">Email Inquiry</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span>© 2026 — crafted with Luau energy by <span class="sig">MAGN1TOFON</span></span>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
